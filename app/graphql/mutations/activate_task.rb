@@ -5,9 +5,8 @@ module Mutations
     field :errors, [String], null: false
 
     def resolve(id:)
-      # TODO: use user id in context
-      user_id = 1
-      user = User.find(user_id)
+      check_authentication!
+      user = User.find(context[:current_user_id])
       if user.tasks.active.count >= 3
         return { errors: ['User already has maximum number of active tasks'] }
       end

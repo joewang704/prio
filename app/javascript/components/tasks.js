@@ -44,7 +44,7 @@ const Actions = styled.div`
 `;
 
 const Tasks = () => {
-  const { data, loading } = useTasks({ userId: 1 });
+  const { data, loading } = useTasks();
   const [removeTask] = useRemoveTask();
   const [activateTask] = useActivateTask();
   const [deactivateTask] = useDeactivateTask();

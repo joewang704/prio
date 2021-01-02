@@ -2,7 +2,7 @@ import { useMutation, useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const tasksQuery = gql`
-  query Tasks($userId: ID!) {
+  query Tasks($userId: ID) {
     tasks(userId: $userId) {
       id
       title
@@ -40,7 +40,7 @@ const completeTaskMutation = gql`
   }
 `;
 
-export const useTasks = ({ userId }) => useQuery(tasksQuery, { variables: { userId }});
+export const useTasks = (userId) => useQuery(tasksQuery, { variables: { userId }});
 
 export const useActivateTask = () => useMutation(activateTaskMutation, { refetchQueries: ['Tasks'] });
 export const useDeactivateTask = () => useMutation(deactivateTaskMutation, { refetchQueries: ['Tasks'] });

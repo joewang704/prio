@@ -8,15 +8,14 @@ module Mutations
     field :errors, [String], null: false
 
     def resolve(title:, duration:, category_id:, description: nil)
+      check_authentication!
       category = Category.find(category_id)
-      user_id = 1
-      user = User.find(user_id)
       Task.create!(
         title: title,
         duration: duration,
         description: description,
         category: category,
-        user: user,
+        user_id: context[:current_user_id]
       )
       { errors: [] }
     end

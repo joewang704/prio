@@ -56,7 +56,7 @@ const CompleteCheckbox = styled(CheckCircle)`
 const date = new Date(1970,0,1);
 
 const Tasks = () => {
-  const { data, loading } = useTasks({ userId: 1 });
+  const { data, loading } = useTasks();
   const [removeTask] = useRemoveTask();
   const [deactivateTask] = useDeactivateTask();
   const [completeTask] = useCompleteTask();

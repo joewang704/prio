@@ -5,5 +5,8 @@ module Types
     field :deactivate_task, mutation: Mutations::DeactivateTask
     field :complete_task, mutation: Mutations::CompleteTask
     field :remove_task, mutation: Mutations::RemoveTask
+
+    field :login, mutation: Mutations::Auth::Login
+    field :register, mutation: Mutations::Auth::Register
   end
 end
