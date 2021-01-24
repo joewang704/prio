@@ -13,15 +13,15 @@ const CreateTask = () => {
 
   const onSubmit = (input) => {
     input.duration = Number(input.duration);
-    createTask({ variables: { input }});
+    return createTask({ variables: { input }});
   }
 
   return (
     <Container>
       <h1>Add New Task to List</h1>
       <Form onSubmit={onSubmit} autoComplete="off">
-        {({ handleSubmit, reset }) => (
-          <form onSubmit={e => handleSubmit(e).then(reset)}>
+        {({ handleSubmit, form }) => (
+          <form onSubmit={e => handleSubmit(e).then(() => form.reset())}>
             <label htmlFor="title">Title</label>
             <Field component="input" name="title" id="title" autoComplete="off" />
             <Field name="description" id="description" render={({ input, meta }) => (
