@@ -8,4 +8,11 @@ class PrioSchema < GraphQL::Schema
 
   # Add built-in connections for pagination
   use GraphQL::Pagination::Connections
+
+  # Rescue and return non-400 and 500 responses for errors
+  use GraphQL::Execution::Errors
+
+  rescue_from(Exception) do |err, obj, args, ctx, field|
+    raise GraphQL::ExecutionError, err.message
+  end
 end

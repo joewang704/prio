@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   get '/app', to: 'home#index'
 
   devise_for :users
+
+  get '*path' => 'home#index'
 end

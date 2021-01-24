@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Field } from 'react-final-form'
 import styled from '@emotion/styled';
 import Cookies from 'js-cookie'
 
 import { Spacer } from '../utils/layout';
+import { Error } from '../utils/error';
 import { useLogin } from '../../hooks/auth';
 
 const Container = styled.div`
@@ -11,15 +12,17 @@ const Container = styled.div`
 
 const Login = () => {
   const [login] = useLogin();
+  const [error, setError] = useState();
 
   const onSubmit = (input) => {
+    setError();
     login({ variables: { input }}).then(({ data }) => {
-      const { errors, token } = data.login;
-      if (errors && errors.length) {
-        return;
-      }
+      const { token } = data.login;
       Cookies.set('user', token, { expires: 365 });
       location.reload();
+    }).catch(({ graphQLErrors }) => {
+      const error = graphQLErrors[0].message;
+      setError(error);
     });
   }
 
@@ -45,6 +48,7 @@ const Login = () => {
             )} />
             <Spacer height={24} />
             <button type="submit">Login</button>
+            {error && <Error>{error}</Error>}
           </form>
         )}
       </Form>

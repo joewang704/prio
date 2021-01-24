@@ -1,24 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Field } from 'react-final-form';
 import Cookies from 'js-cookie';
 import styled from '@emotion/styled';
 import { Spacer } from '../utils/layout';
 import { useRegister } from '../../hooks/auth';
+import { Error } from '../utils/error';
 
 const Container = styled.div`
 `;
 
 const Register = () => {
   const [register] = useRegister();
+  const [error, setError] = useState();
 
   const onSubmit = (input) => {
+    setError();
     register({ variables: { input }}).then(({ data }) => {
-      const { errors, token } = data.register;
-      if (errors && errors.length) {
-        return;
-      }
+      const { token } = data.register;
       Cookies.set('user', token, { expires: 365 });
       location.reload();
+    }).catch(({ graphQLErrors }) => {
+      const error = graphQLErrors[0].message;
+      setError(error);
     });
   }
 
@@ -44,6 +47,7 @@ const Register = () => {
             )} />
             <Spacer height={24} />
             <button type="submit">Register</button>
+            {error && <Error>{error}</Error>}
           </form>
         )}
       </Form>
